@@ -1,4 +1,4 @@
-FROM centos:7
+FROM wqferan/centos:7-package
 
 RUN yum install -y wget && yum -y groupinstall 'Development Tools'
 RUN mkdir RPMS
