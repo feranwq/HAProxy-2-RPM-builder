@@ -1,0 +1,19 @@
+name: Build RPMs
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "startsWith(github.event.head_commit.message, 'Build') || startsWith(github.event.head_commit.message, 'Release')"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        run: |
+          make run-docker
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: "WiP RPM Build"
+          automatic_release_tag: "WiP"
+          repo_token: "${{ secrets.TOKEN }}"
+          files: |
+            RPMS/**/*.rpm
