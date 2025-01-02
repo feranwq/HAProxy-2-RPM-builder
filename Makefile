@@ -1,8 +1,8 @@
 HOME=$(shell pwd)
 MAINVERSION?=2.9
 LUA_VERSION=5.4.7
-USE_LUA?=0
-NO_SUDO?=0
+USE_LUA?=1
+NO_SUDO?=1
 USE_PROMETHEUS?=0
 VERSION=$(shell wget -qO- https://git.haproxy.org/git/haproxy-${MAINVERSION}.git/refs/tags/ | sed -n 's:.*>\(.*\)</a>.*:\1:p' | sed 's/^.//' | sort -rV | head -1)
 ifeq ("${VERSION}","./")
@@ -58,7 +58,7 @@ else
 	sudo $(MAKE) -C lua-${LUA_VERSION} install
 endif
 
-build_stages := install_prereq clean download-upstream
+build_stages := install_prereq clean download-upstream build_lua
 ifeq ($(USE_LUA),1)
 	build_stages += build_lua
 endif
